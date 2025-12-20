@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  importFileExtension = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  meals Meal[]
+}
+
+model Meal {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String
+  consumedAt  DateTime @default(now())
+  description String?
+  calories    Int
+  protein     Float
+  carbs       Float
+  fats        Float
+
+  fiber  Float?
+  sugar  Float?
+  sodium Float?
+
+  micros Json?
+
+  @@index([userId, consumedAt])
+}
