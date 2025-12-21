@@ -2,24 +2,26 @@
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { stat } from 'fs';
 import type { FC } from 'react';
 import { useState } from 'react';
 import { FaHourglassStart, FaPaperPlane } from "react-icons/fa6";
+import EditMealInput from './EditMealInput';
 
 const LogMealInput: FC = () => {
   // const [value, setValue] = useState('')
-  const [state, setState] = useState<'idle' | 'submitting'>('idle')
+  const [state, setState] = useState<'idle' | 'submit' | 'confirm'>('idle')
 
   const handleSubmit = async () => {
     // if (!value.trim()) return
 
-    setState('submitting')
+    setState('submit')
 
     // simulate async action (API / AI call)
     await new Promise((res) => setTimeout(res, 1500))
 
     // setValue('')
-    setState('idle')
+    setState('confirm')
   }
 
   return (
@@ -29,7 +31,7 @@ const LogMealInput: FC = () => {
         <div className="flex mt-2 justify-end" >
           <Button className="w-30 justify-center" onClick={handleSubmit} >
 
-            {state === 'submitting' ? (
+            {state === 'submit' ? (
               <>
                 <FaHourglassStart />
                 Analyzing
@@ -44,6 +46,7 @@ const LogMealInput: FC = () => {
           </Button>
         </div>
       </div>
+      {state === 'confirm' ? (<><EditMealInput/></>) : (<></>)}
     </>
   );
 };
