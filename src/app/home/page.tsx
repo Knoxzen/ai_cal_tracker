@@ -1,5 +1,6 @@
 'use client';
 
+import LogMealInput from "@/components/features/log-meal-input/LogMealInput";
 import axios from "axios";
 import { useState } from "react";
 import Markdown from 'react-markdown'
@@ -16,14 +17,15 @@ export default function HomePage() {
         setMessage(data.message);
     }
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold">Page Title</h1>
-            <p className="mt-2 text-gray-700">Page content goes here.</p>
-            <input type="text" placeholder="Enter your calorie goal" onChange={(e) => setInput(e.target.value)} />
-            <button onClick={() => sendMessage(input)}>Submit</button>
-            <Markdown remarkPlugins={[remarkGfm]}>{message}</Markdown>
-
-
-        </div>
+        <>
+            <LogMealInput/>
+            <div className="p-6">
+                <h1 className="text-2xl font-bold">Page Title</h1>
+                <p className="mt-2 text-gray-700">Page content goes here.</p>
+                <input type="text" placeholder="Enter your calorie goal" onChange={(e) => setInput(e.target.value)} />
+                <button onClick={() => sendMessage(input)}>Submit</button>
+                <Markdown remarkPlugins={[remarkGfm]}>{message}</Markdown>
+            </div>
+        </>
     );
 }
