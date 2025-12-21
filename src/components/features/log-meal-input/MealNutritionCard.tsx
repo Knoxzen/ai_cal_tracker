@@ -23,7 +23,7 @@ const MealNutritionCard: React.FC<MealNutritionCardProps> = ({
   maxFats = 70,
 }) => {
   return (
-    <div className="p-4 rounded-lg border bg-card text-card-foreground">
+    <div className="p-4 h-[250px] rounded-lg border bg-card text-card-foreground">
       
       {/* Header */}
       <div className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">

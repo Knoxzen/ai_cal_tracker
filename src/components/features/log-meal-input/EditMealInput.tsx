@@ -4,15 +4,21 @@ import { Button } from '@/components/ui/button';
 import React from 'react';
 import MealNutritionCard from './MealNutritionCard';
 import EditNutritionCard from './EditNutritionCard';
+import { FaCircleCheck } from "react-icons/fa6";
+import type { Meal } from '@/types/Meal';
 
-const EditMealInput: React.FC = () => {
+
+
+const EditMealInput: React.FC<Meal> = (meal) => {
+    console.log("inside the edit meal",meal);
+    
     return (
         <>
             <div className="m-4 p-4 w-[80vw] rounded-md border bg-background">
 
-                {/* Header */}
-                <div className="text-sm font-medium uppercase tracking-wide text-muted-foreground mb-4">
-                    Testing the components
+                <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-muted-foreground mb-4">
+                    <FaCircleCheck />
+                    <span>Review Meal Details</span>
                 </div>
 
                 {/* Cards Row */}
@@ -23,12 +29,12 @@ const EditMealInput: React.FC = () => {
                     </div>
 
                     {/* Right: Nutrition summary (30%) */}
-                    <div className="basis-[30%]">
+                    <div className="basis-[30%] h-[250px]">
                         <MealNutritionCard
-                            kcal={580}
-                            protein={42}
-                            carbs={65}
-                            fats={18}
+                            kcal={meal.calories}
+                            protein={meal.protein}
+                            carbs={meal.carbs}
+                            fats={meal.fats}
                         />
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 import EditItem from './EditItem'
-import { MealItem } from '@/model/MealItem'
+import { MealItem } from '@/types/MealItem'
 import { useState } from 'react'
 
 const mockItems: MealItem[] = [
@@ -22,6 +22,46 @@ const mockItems: MealItem[] = [
         carbs: 40,
         fats: 1,
     },
+    {
+        id: '3',
+        name: 'Rice',
+        calories: 180,
+        protein: 4,
+        carbs: 40,
+        fats: 1,
+    },
+    {
+        id: '4',
+        name: 'Rice',
+        calories: 180,
+        protein: 4,
+        carbs: 40,
+        fats: 1,
+    },
+    {
+        id: '5',
+        name: 'Rice',
+        calories: 180,
+        protein: 4,
+        carbs: 40,
+        fats: 1,
+    },
+    {
+        id: '6',
+        name: 'Rice',
+        calories: 180,
+        protein: 4,
+        carbs: 40,
+        fats: 1,
+    },
+    {
+        id: '7',
+        name: 'Rice',
+        calories: 180,
+        protein: 4,
+        carbs: 40,
+        fats: 1,
+    },
 ]
 
 const EditNutritionCard = () => {
@@ -31,12 +71,11 @@ const EditNutritionCard = () => {
         setOpenItemId(prev => (prev === id ? null : id));
     };
     return (
-        <div className="h-full p-4 rounded-lg border bg-card text-card-foreground">
+        <div className="h-[250px] p-4 rounded-lg border bg-card text-card-foreground flex flex-col">
             <div className="text-xs mb-2 font-semibold tracking-widest text-muted-foreground uppercase">
                 Total Nutrition
             </div>
-            <ScrollArea className="">
-
+            <ScrollArea className="flex-1 min-h-0">
                 <div className="space-y-2">
                     {mockItems.map(item => (
                         <EditItem
