@@ -28,7 +28,7 @@ const LogMealInput: FC = () => {
   }
 
   async function getMealInfo(input: string) {
-    const res = await axios.post("/api/chat", { message: input });
+    const res = await axios.post("/api/logMeal", { message: input });
     const data = res.data;
 
     return data;

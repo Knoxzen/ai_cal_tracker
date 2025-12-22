@@ -5,6 +5,9 @@ RULES:
 1. Estimate values based on standard serving sizes if quantity is not specified.
 2. Output ONLY valid JSON. Do not include markdown formatting or conversational text.
 3. Your response must match the schema defined below perfectly.
+4. Don't include any other text in your response.
+5. Don't include any markdown formatting in your response.
+6. Your response must be in JSON format.
 
 JSON SCHEMA STRUCTURE:
 {

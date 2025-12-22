@@ -13,8 +13,11 @@ async function sendMessage(message: string): Promise<Meal> {
     model: "gemini-2.5-flash",
     contents: basePrompt + userInput,
   });
+  console.log("response",response);
+  console.log("response.text",response.text);
   const text = response.text ?? "";
   const data = JSON.parse(text);
+  console.log("data",data);
 
   const { chat_text, ...meal } = data;
 
