@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
   importFileExtension = ""
 }
 
@@ -9,10 +9,11 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String        @id @default(cuid())
+  email     String        @unique
   name      String?
-  createdAt DateTime @default(now())
+  createdAt DateTime      @default(now())
+  metadata  UserMetadata?
 
   meals Meal[]
 }
@@ -37,4 +38,24 @@ model Meal {
   micros Json?
 
   @@index([userId, consumedAt])
+}
+
+model UserMetadata {
+  id               String @id @default(uuid())
+  userId           String @unique
+  // Nutrition goals
+  dailyCalorieGoal Int
+  proteinGoal      Int?
+  carbsGoal        Int?
+  fatsGoal         Int?
+
+  // Rates & preferences
+  weightUnit String @default("kg")
+
+  // Optional personalization
+  notificationsOn Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
