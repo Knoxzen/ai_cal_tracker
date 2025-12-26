@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import React from 'react';
+import React, { useState } from 'react';
 import MealNutritionCard from './MealNutritionCard';
 import EditNutritionCard from './EditNutritionCard';
 import { FaCircleCheck } from "react-icons/fa6";
@@ -10,8 +10,14 @@ import type { Meal } from '@/types/Meal';
 
 
 const EditMealInput: React.FC<Meal> = (meal) => {
-    console.log("inside the edit meal",meal);
-    
+
+    const [editedMeal, setEditedMeal] = useState<Meal>(meal);
+
+    const handleEditMeal = (meal: Meal) => {
+        setEditedMeal(meal);
+    };
+
+
     return (
         <>
             <div className="m-4 p-4 w-[80vw] rounded-md border bg-background">
@@ -25,16 +31,16 @@ const EditMealInput: React.FC<Meal> = (meal) => {
                 <div className="flex gap-4 mb-6">
                     {/* Left: Editable items (70%) */}
                     <div className="basis-[70%]">
-                        <EditNutritionCard />
+                        <EditNutritionCard meal={editedMeal} onEditMeal={handleEditMeal} />
                     </div>
 
                     {/* Right: Nutrition summary (30%) */}
                     <div className="basis-[30%] h-[250px]">
                         <MealNutritionCard
-                            kcal={meal.calories}
-                            protein={meal.protein}
-                            carbs={meal.carbs}
-                            fats={meal.fats}
+                            kcal={editedMeal.calories}
+                            protein={editedMeal.protein}
+                            carbs={editedMeal.carbs}
+                            fats={editedMeal.fats}
                         />
                     </div>
                 </div>

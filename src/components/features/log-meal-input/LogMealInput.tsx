@@ -56,6 +56,7 @@ const LogMealInput: FC = () => {
           </Button>
         </div>
       </div>
+      <EditMealInput id={''} userId={''} name={'Test Meal'} description={'Test Description'} calories={100} protein={10} carbs={10} fats={10} fiber={0} sugar={0} sodium={0} micros={{}}/>
       {state === 'confirming' && meal ? <EditMealInput {...meal} /> : null}
     </>
   );
