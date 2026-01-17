@@ -4,50 +4,56 @@ import { Meal } from "@/types/Meal";
 import { NUTRITION_PROMPT } from "@/constants/nutritionPrompt";
 
 const ai = new GoogleGenAI({});
+type MealPreview = Omit<Meal, 'id'>;
 
-async function sendMessage(message: string): Promise<Meal> {
-  const userInput: string = message;
+async function sendMessage(message: string): Promise<MealPreview> {
+  const userInput = message;
   const basePrompt = NUTRITION_PROMPT;
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     contents: basePrompt + userInput,
   });
-  console.log("response",response);
-  console.log("response.text",response.text);
+
   const text = response.text ?? "";
   const data = JSON.parse(text);
-  console.log("data",data);
 
   const { chat_text, ...meal } = data;
 
-  const createdMeal = await prisma.meal.create({
-    data: {
-      userId: "current_user_id",
-      name: meal.name,
-      description: meal.description,
-      calories: meal.calories,
-      protein: meal.protein,
-      carbs: meal.carbs,
-      fats: meal.fats,
-      fiber: meal.fiber ?? 0,
-      sugar: meal.sugar ?? 0,
-      sodium: meal.sodium ?? 0,
-      micros: meal.micros ?? {},
-    },
-  });
-
   return {
-    ...createdMeal,
-    description: createdMeal.description ?? "",
-    fiber: createdMeal.fiber ?? 0,
-    sugar: createdMeal.sugar ?? 0,
-    sodium: createdMeal.sodium ?? 0,
-    micros: (createdMeal.micros ?? {}) as Record<string, number>,
+    userId: "current_user_id",
+    name: meal.name,
+    description: meal.description ?? "",
+    calories: meal.calories,
+    protein: meal.protein,
+    carbs: meal.carbs,
+    fats: meal.fats,
+    fiber: meal.fiber ?? 0,
+    sugar: meal.sugar ?? 0,
+    sodium: meal.sodium ?? 0,
+    micros: (meal.micros ?? {}) as Record<string, number>,
   };
 }
 
+
+async function saveMeal(meal: Meal): Promise<void> {
+  await prisma.meal.create({
+    data: meal
+  });
+}
+
+
 export async function POST(request: Request) {
   const body = await request.json();
-  return Response.json(await sendMessage(body.message));
+  const {message,action} = body;
+
+  switch (action) {
+    case "fetch":
+      return Response.json(await sendMessage(message));
+    case "save":
+      return Response.json(await saveMeal(message));
+    default:
+      break;
+  }
+
 }

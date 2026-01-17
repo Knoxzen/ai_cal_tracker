@@ -9,8 +9,12 @@ import EditMealInput from './EditMealInput';
 import axios from 'axios';
 import { Meal } from '@/types/Meal';
 
-const LogMealInput: FC = () => {
-  // const [value, setValue] = useState('')
+type LogMealProps = {
+    action : () => void;
+};
+
+const LogMealInput = ({action}:LogMealProps) => {
+
   const [state, setState] = useState<'idle' | 'submitting' | 'confirming'>('idle')
   const [input, setInput] = useState("");
   const [meal, setMeal] = useState<Meal>();
@@ -28,11 +32,16 @@ const LogMealInput: FC = () => {
   }
 
   async function getMealInfo(input: string) {
-    const res = await axios.post("/api/logMeal", { message: input });
+    const res = await axios.post("/api/logMeal", { message: input, action: "fetch" });
     const data = res.data;
 
     return data;
   }
+
+  const handleState = () : void => {
+    action();
+    setState("idle");
+  };
 
   return (
     <>
@@ -56,8 +65,7 @@ const LogMealInput: FC = () => {
           </Button>
         </div>
       </div>
-      <EditMealInput id={''} userId={''} name={'Test Meal'} description={'Test Description'} calories={100} protein={10} carbs={10} fats={10} fiber={0} sugar={0} sodium={0} micros={{}}/>
-      {state === 'confirming' && meal ? <EditMealInput {...meal} /> : null}
+      {state === 'confirming' && meal ? <EditMealInput meal={meal} action={handleState} /> : null}
     </>
   );
 };

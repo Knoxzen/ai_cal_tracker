@@ -6,10 +6,15 @@ import MealNutritionCard from './MealNutritionCard';
 import EditNutritionCard from './EditNutritionCard';
 import { FaCircleCheck } from "react-icons/fa6";
 import type { Meal } from '@/types/Meal';
+import axios from 'axios';
 
+type EditMealInputProps = {
+    meal: Meal;
+    action: () => void;
+  };
+  
 
-
-const EditMealInput: React.FC<Meal> = (meal) => {
+const EditMealInput = ({meal,action} : EditMealInputProps) => {
 
     const [editedMeal, setEditedMeal] = useState<Meal>(meal);
 
@@ -17,6 +22,10 @@ const EditMealInput: React.FC<Meal> = (meal) => {
         setEditedMeal(meal);
     };
 
+    const handleSave = async () => {
+        action();
+        await axios.post("/api/logMeal", { message: editedMeal, action: "save" });
+    }
 
     return (
         <>
@@ -47,10 +56,10 @@ const EditMealInput: React.FC<Meal> = (meal) => {
 
                 {/* Actions */}
                 <div className="flex justify-end gap-2">
-                    <Button variant="secondary" className="w-[120px]">
+                    <Button variant="secondary" className="w-[120px]" onClick={action}>
                         Cancel
                     </Button>
-                    <Button className="w-[160px]">
+                    <Button className="w-[160px]" onClick={handleSave} >
                         Confirm
                     </Button>
                 </div>
