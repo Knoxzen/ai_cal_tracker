@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import DashCards from './DashCards';
 
-const DashCardList: React.FC = () => {
+type DashboardProps = {
+  refreshKey: number;
+};
+
+const DashCardList = (refreshKey : DashboardProps) => {
 
   const [mealSummary, setMealSummary] = useState<{ totalCaloriesConsumed: number; dailyGoal: number; remainingCalories: number; }>({
     totalCaloriesConsumed: 0,
@@ -18,7 +22,7 @@ const DashCardList: React.FC = () => {
       setMealSummary(data);
     };
     fetchMealSummary();
-  }, []);
+  }, [refreshKey]);
 
   return (
     <>
